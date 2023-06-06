@@ -17,7 +17,7 @@ def get_query_context(query, minscore = 0, retmax = 1):
     return db.search(sql,retmax)
 
 def combine_search_results(rvec, include_score = False):
-    text = ["The following is a set of snippets containing relevant information to the user's query."]
+    text = []
     references = ["References:"]
     for rd in rvec:
         text.append(rd['text'])
