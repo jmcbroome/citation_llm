@@ -18,14 +18,18 @@ def get_query_context(query, minscore = 0, retmax = 1):
 
 def combine_search_results(rvec, include_score = False):
     text = []
-    references = ["References:"]
+    references = []
+    scores = []
     for rd in rvec:
         text.append(rd['text'])
         reftext = rd['reference']
         if include_score:
-             reftext += f"; (Score: {rd['score']})"
+            scores.append(rd['score'])
         references.append(reftext)
-    return {"context":"\n".join(text), "references":"\n".join(references)}
+    if include_score:
+        return {"context":text, "references":references, "scores":scores}
+    else:
+        return {"context":text, "references":references}
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Flask app with database path and logging level options")
