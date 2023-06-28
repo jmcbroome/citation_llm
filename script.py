@@ -57,7 +57,7 @@ def ui():
     activate = gr.Checkbox(value=params['activate'], label='Activate citation fetching')
     max_returned = gr.Slider(1, 15, value=params['max_returned'], step=1, label="Maximum number of citations to return. Setting this value too high may lead to lost context!")
     score_cutoff = gr.Slider(0, 1, value=params['score_cutoff'], step=0.01, label="Minimum similarity to return citations. Set to higher values to be more stringent.")
-    database_host = gr.Textbox(value="", placeholder="localhost:5000", label="", info='To use this textbox activate the checkbox above')
+    database_host = gr.Textbox(value="", placeholder="localhost:5000", label="", info='Set the path to the context database API.')
     
     activate.change(lambda x: params.update({"activate": x}), activate, None)
     max_returned.change(lambda x: params.update({"max_returned": x}), max_returned, None)
