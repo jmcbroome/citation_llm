@@ -1,5 +1,6 @@
 import gradio as gr
 import requests
+import json
 
 params = {
     "activate": True,
@@ -8,6 +9,18 @@ params = {
     "database_host": "localhost:5000"
 }
 
+references_used = []
+
+def get_context(query,url,retmax=1,minscore=0):
+    headers = {'Content-Type': 'application/json'}
+    data = {'query': query, 'retmax':retmax, 'minscore':minscore,'include_score':True}
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print('Request failed with status code:', response.status_code)
+        return {}
+
 def input_modifier(string):
     """
     This function is applied to your text inputs before
@@ -15,6 +28,15 @@ def input_modifier(string):
     """
     if not params['activate']:
         return string
+    #fetch and apply the context
+    ret = get_context(string, params['database_host'], params['max_returned'], 0)
+    if len(ret['context']) == 0:
+        #no context found.
+        return string
+    context = "The following is a set of snippets that may or may not be relevant to the below. They may be incorrectly formatted.\n\n"+ ret['context']
+    references_used = ret['references']
+    assert len(references_used) > 0
+    return context + string
 
 def output_modifier(string):
     """
@@ -22,6 +44,14 @@ def output_modifier(string):
     """
     if not params['activate']:
         return string
+    else:
+        if len(references_used) > 0:
+            #return the references and reset the tracker
+            fstring = string + "\n\n" + "\n".join(references_used)
+            references_used = []
+            return fstring
+        else:
+            return string + "\n\n" + "No relevant references found."
 
 def ui():
     activate = gr.Checkbox(value=params['activate'], label='Activate citation fetching')
