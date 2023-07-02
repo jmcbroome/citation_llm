@@ -38,7 +38,7 @@ def parse_arguments():
     return parser.parse_args()
 
 @app.route('/context', methods=['POST'])
-def hello():
+def context_response():
     query = request.json.get('query')  # Assuming request data is in JSON format
     if query:
         logging.info("Searching for context for query: %s", query)
@@ -47,6 +47,10 @@ def hello():
     else:
         logging.error("User passed malformed request missing query parameter: %s", query)
         return "Malformed request- please provide a 'query' parameter."
+
+@app.route("/ping", methods=['GET'])
+def checkin():
+    return "",201
 
 if __name__ == '__main__':
     args = parse_arguments()
