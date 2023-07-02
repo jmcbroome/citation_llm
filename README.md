@@ -1,4 +1,4 @@
-# citation-llm
+# citation_llm
 Repository containing code exploring the use of citation context information extracted from academic and scientific work for Retrieval-Augmented Generation (RAG).
 
 ## Concept
@@ -27,7 +27,7 @@ Once cleaned up, we extract a set of unique citation contexts from the dataset, 
 
 ### Querying
 
-Beyond working programmatically with database requests and tools like [llama-cpp-python](https://github.com/abetlen/llama-cpp-python), I have written a simple extension for the popular [text-generation-webui](https://github.com/oobabooga/text-generation-webui). Simply clone this repository into the extensions folder of your installation of the webui and include citation_llm in your `--extensions` argument.
+Beyond working programmatically with database requests and tools like [llama-cpp-python](https://github.com/abetlen/llama-cpp-python), I have written a simple extension for the popular [text-generation-webui](https://github.com/oobabooga/text-generation-webui). Simply clone this repository into the extensions folder of your installation of the webui and include citation_llm in your `--extensions` argument. Set the url (IP and port) for your database connection (loaded with context_app.py) and the relevant parameters, and all input will include citation context searching and returns.
 
 ### Drawbacks and Considerations
 
