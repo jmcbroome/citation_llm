@@ -27,6 +27,7 @@ def input_modifier(string):
     This function is applied to your text inputs before
     they are fed into the model.
     """
+    global references_used
     if not params['activate']:
         return string
     #fetch and apply the context
@@ -37,12 +38,13 @@ def input_modifier(string):
     context = "The following is a set of snippets that may or may not be relevant to the below. They may be incorrectly formatted.\n\n"+ "\n".join(ret['context'])
     references_used = ret['references']
     assert len(references_used) > 0
-    return context + string
+    return context +"\n\nQuestion: " + string + "\nAnswer:"
 
 def output_modifier(string):
     """
     This function is applied to the model outputs.
     """
+    global references_used
     if not params['activate']:
         return string
     else:
@@ -73,7 +75,6 @@ def address_update(address):
         msg = f"❌ No Database API on: {address}"
 
     return gr.Textbox.update(label=msg)
-
 
 def ui():
     activate = gr.Checkbox(value=params['activate'], label='Activate citation fetching')
