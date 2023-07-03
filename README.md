@@ -1,4 +1,4 @@
-# citation-llm
+# citation_llm
 Repository containing code exploring the use of citation context information extracted from academic and scientific work for Retrieval-Augmented Generation (RAG).
 
 ## Concept
@@ -25,9 +25,9 @@ Collecting citation context data in and of itself is a significant undertaking, 
 
 Once cleaned up, we extract a set of unique citation contexts from the dataset, along with all associated references for each context. We compute an embedding for each context and store the embedding in a [FAISS](https://github.com/facebookresearch/faiss) vectorstore, as well as storing the raw text and reference information in an associated SQlite relational database. This step is largely handled by [txtai](https://github.com/neuml/txtai). The database can then be loaded and accessed through the simple Flask webapp we provide here.
 
-### Query Formatting
+### Querying
 
-TBD- Under Active Development
+Beyond working programmatically with database requests and tools like [llama-cpp-python](https://github.com/abetlen/llama-cpp-python), I have written a simple extension for the popular [text-generation-webui](https://github.com/oobabooga/text-generation-webui). Simply clone this repository into the extensions folder of your installation of the webui and include citation_llm in your `--extensions` argument. Set the url (IP and port) for your database connection (loaded with context_app.py) and the relevant parameters, and all input will include citation context searching and returns.
 
 ### Drawbacks and Considerations
 
